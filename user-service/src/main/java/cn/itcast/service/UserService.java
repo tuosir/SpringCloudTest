@@ -10,7 +10,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
     public User queryById(Long id){
-        return userMapper.selectByPrimaryKey(id);
+        return new User("lisi");
+//        return userMapper.selectByPrimaryKey(id);
     }
 
 }

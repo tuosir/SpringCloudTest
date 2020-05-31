@@ -1,26 +1,24 @@
-package cn.itcast.user.pojo;
+package cn.itcast.pojo;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
-
 @Data
-@Table(name="tb_user")
 public class User {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 用户名
     private String userName;
 
     private String note;
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getNote() {
+        return note;
+    }
 
     public User(String userName) {
         this.userName = userName;
