@@ -1,5 +1,6 @@
 package cn.itcast.controller;
 
+import cn.itcast.client.UserClient;
 import cn.itcast.pojo.User;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -16,26 +17,32 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("consumer")
 @DefaultProperties(defaultFallback = "defaultFallback")
 public class ConsumerController {
+//    @Autowired
+//    private RestTemplate restTemplate;
+
     @Autowired
-    private RestTemplate restTemplate;
+    private UserClient userClient;
 
-    @GetMapping("/{id}")
-    @HystrixCommand(commandProperties = {
-            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "10000"),
-            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value = "10"),
-            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value = "60")
-
-    })
+//    @GetMapping("/{id}")
+//    @HystrixCommand(commandProperties = {
+//            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "10000"),
+//            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value = "10"),
+//            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value = "60")
+//
+//    })
 //    @HystrixCommand
+//    public String queryById(@PathVariable("id") Long id) {
+//        if (id % 2 == 0){
+//            new RuntimeException("");
+//        }
+//        String url = "http://user-service/user/" + id;
+//        String user = restTemplate.getForObject(url, String.class);
+//        return user;
+//    }
+    @GetMapping("/{id}")
     public String queryById(@PathVariable("id") Long id) {
-        if (id % 2 == 0){
-            new RuntimeException("");
-        }
-        String url = "http://user-service/user/" + id;
-        String user = restTemplate.getForObject(url, String.class);
-        return user;
+        return userClient.queryById(id);
     }
-
     public String defaultFallback(){
         return "用户信息查询出现异常！";
     }
